@@ -1,0 +1,7 @@
+#user-menu-button {
+    cursor: pointer;
+}
+
+#user-menu {
+    transition: opacity 0.2s ease-in-out;
+}

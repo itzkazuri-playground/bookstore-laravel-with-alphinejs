@@ -12,7 +12,7 @@
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
         <!-- Scripts -->
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
+        @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/css/pages/dashboard.css'])
         
         <!-- Alpine.js -->
         <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
@@ -49,16 +49,27 @@
                         <!-- Right side navigation -->
                         <div class="flex items-center">
                             @auth
-                                <!-- User is logged in -->
-                                @if(Auth::user()->isAdmin())
-                                    <a href="{{ route('admin.dashboard') }}" class="text-gray-700 hover:text-gray-900 mx-4">Admin Dashboard</a>
-                                @else
-                                    <a href="{{ route('dashboard') }}" class="text-gray-700 hover:text-gray-900 mx-4">Dashboard</a>
-                                @endif
-                                <form method="POST" action="{{ route('logout') }}">
-                                    @csrf
-                                    <button type="submit" class="text-gray-700 hover:text-gray-900">Logout</button>
-                                </form>
+                                <div class="relative">
+                                    <button id="user-menu-button" class="flex items-center space-x-2">
+                                        <span>{{ Auth::user()->name }}</span>
+                                        <svg class="h-5 w-5 text-gray-500" viewBox="0 0 20 20" fill="currentColor">
+                                            <path fill-rule="evenodd" d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
+                                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM2 10a8 8 0 1116 0 8 8 0 01-16 0z" />
+                                        </svg>
+                                    </button>
+                                    <div id="user-menu" class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-10 hidden">
+                                        @if(Auth::user()->isAdmin())
+                                            <a href="{{ route('admin.dashboard') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Admin Dashboard</a>
+                                        @else
+                                            <a href="{{ route('dashboard') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Dashboard</a>
+                                        @endif
+                                        <a href="{{ route('profile.edit') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Profile</a>
+                                        <form method="POST" action="{{ route('logout') }}">
+                                            @csrf
+                                            <button type="submit" class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Logout</button>
+                                        </form>
+                                    </div>
+                                </div>
                             @else
                                 <!-- User is not logged in - show single login -->
                                 <a href="{{ route('login') }}" class="text-gray-700 hover:text-gray-900 mx-4">Login</a>
@@ -77,5 +88,7 @@
                 @endisset
             </main>
         </div>
+        @stack('scripts')
+        @vite(['resources/js/pages/dashboard.js'])
     </body>
 </html>

@@ -2,12 +2,36 @@
 
 @section('title', 'Dashboard')
 
+@push('styles')
+    @vite('resources/css/pages/dashboard.css')
+@endpush
+
 @section('content')
 <div class="py-12">
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
             <div class="p-6 text-gray-900">
-                <h1 class="text-3xl font-bold mb-6">Welcome to Your Dashboard</h1>
+                <div class="flex justify-between items-center mb-6">
+                    <h1 class="text-3xl font-bold">Welcome to Your Dashboard</h1>
+                    <div class="relative">
+                        <button id="user-menu-button" class="flex items-center space-x-2">
+                            <span>{{ Auth::user()->name }}</span>
+                            <svg class="h-5 w-5 text-gray-500" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM2 10a8 8 0 1116 0 8 8 0 01-16 0z" />
+                            </svg>
+                        </button>
+                        <div id="user-menu" class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-10 hidden">
+                            <a href="{{ route('dashboard') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Dashboard</a>
+                            <a href="{{ route('profile.edit') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Profile</a>
+                            <form method="POST" action="{{ route('logout') }}">
+                                @csrf
+                                <button type="submit" class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Logout</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                
                 <p class="mb-6">Hello, {{ Auth::user()->name }}! This is your personal dashboard where you can manage your account and activities.</p>
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -47,4 +71,7 @@
         </div>
     </div>
 </div>
+@push('scripts')
+    @vite('resources/js/pages/dashboard.js')
+@endpush
 @endsection

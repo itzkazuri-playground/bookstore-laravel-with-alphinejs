@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
 use App\Models\Book;
 use App\Models\Author;
 use App\Models\Category;
@@ -10,7 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 
-class AdminBooksController extends Controller
+class AdminBooksController extends BaseAdminController
 {
     /**
      * Show admin books page
@@ -52,7 +51,7 @@ class AdminBooksController extends Controller
         }
         
         $books = $query->paginate(10)->appends($request->query());
-        $authors = Author::all(); // For filter dropdown
+        $authors = Author::orderBy('name')->get(); // For filter dropdown, sorted alphabetically
         $statuses = ['available', 'rented', 'reserved']; // For filter dropdown
         
         return view('admin.books', compact('books', 'authors', 'statuses'));
@@ -63,7 +62,7 @@ class AdminBooksController extends Controller
      */
     public function create(): View
     {
-        $authors = Author::all();
+        $authors = Author::orderBy('name')->get();
         $categories = Category::all();
         return view('admin.books.create', compact('authors', 'categories'));
     }
@@ -92,7 +91,7 @@ class AdminBooksController extends Controller
      */
     public function edit(Book $book): View
     {
-        $authors = Author::all();
+        $authors = Author::orderBy('name')->get();
         $categories = Category::all();
         return view('admin.books.edit', compact('book', 'authors', 'categories'));
     }

@@ -25,14 +25,16 @@ Sistem manajemen toko buku berbasis web yang dibangun dengan Laravel 10.49, dile
 
 ## 🖼️ Tampilan Aplikasi
 
-### Halaman Publik
+### Tampilan User
+![User Interface](user.png)
 - **Beranda** - Landing page dengan highlights dan navigasi utama
 - **Katalog Buku** - Grid/list view dengan filter dan sorting advanced
 - **Detail Buku** - Informasi lengkap buku, statistik rating, dan form penilaian
 - **Top Authors** - Leaderboard penulis dengan berbagai metrik performa
 - **Form Rating** - Interface interaktif untuk memberikan penilaian (memerlukan login)
 
-### Panel Admin
+### Tampilan Admin
+![Admin Interface](admin.png)
 - **Dashboard** - Overview statistik aplikasi dan activity logs
 - **Manajemen Buku** - CRUD operations dengan bulk actions
 - **Manajemen Penulis** - Database penulis dengan profile lengkap

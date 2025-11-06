@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
 use App\Models\Rating;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 
-class AdminRatingsController extends Controller
+class AdminRatingsController extends BaseAdminController
 {
     /**
      * Show admin ratings page

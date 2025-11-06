@@ -21,6 +21,8 @@
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </head>
 <body class="font-sans antialiased bg-gray-100">
+    @auth
+        @if(auth()->user()->isAdmin())
     <div class="min-h-screen flex">
         <!-- Admin Sidebar Navigation -->
         <nav class="bg-gray-800 text-white w-64 min-h-screen">
@@ -108,5 +110,24 @@
     
     <!-- Include admin JS -->
     @vite('resources/js/admin/admin.js')
+    
+    @else
+        <div class="flex items-center justify-center min-h-screen bg-gray-100">
+            <div class="text-center">
+                <h1 class="text-2xl font-bold text-red-500 mb-4">Access Denied</h1>
+                <p class="text-gray-700 mb-4">You do not have permission to access this page.</p>
+                <a href="/" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">Go to Home</a>
+            </div>
+        </div>
+    @endif
+    @else
+        <div class="flex items-center justify-center min-h-screen bg-gray-100">
+            <div class="text-center">
+                <h1 class="text-2xl font-bold text-red-500 mb-4">Access Required</h1>
+                <p class="text-gray-700 mb-4">Please log in to access this page.</p>
+                <a href="/login" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">Login</a>
+            </div>
+        </div>
+    @endif
 </body>
 </html>

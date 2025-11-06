@@ -19,6 +19,13 @@ class AdminController extends Controller
      */
     public function dashboard(): View
     {
+        $user = auth()->user();
+        
+        // Additional check to ensure user is admin
+        if (!$user || $user->role !== 'admin') {
+            abort(403, 'Unauthorized access to admin dashboard');
+        }
+
         // Count statistics for dashboard
         $booksCount = Book::count();
         $authorsCount = Author::count();
@@ -26,7 +33,7 @@ class AdminController extends Controller
         $ratingsCount = Rating::count();
         
         // Get the authenticated admin user
-        $adminUser = auth()->user();
+        $adminUser = $user;
 
         return view('admin.dashboard', compact('booksCount', 'authorsCount', 'categoriesCount', 'ratingsCount', 'adminUser'));
     }

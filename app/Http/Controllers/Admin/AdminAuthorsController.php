@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
 use App\Models\Author;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 
-class AdminAuthorsController extends Controller
+class AdminAuthorsController extends BaseAdminController
 {
     /**
      * Show admin authors page
@@ -31,7 +30,7 @@ class AdminAuthorsController extends Controller
         }
         
         $authors = $query->paginate(10)->appends($request->query());
-        $countries = Author::select('country')->distinct()->pluck('country')->filter(); // For filter dropdown
+        $countries = Author::select('country')->distinct()->orderBy('country')->pluck('country')->filter(); // For filter dropdown, sorted alphabetically
         
         return view('admin.authors', compact('authors', 'countries'));
     }

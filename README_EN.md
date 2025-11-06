@@ -23,14 +23,16 @@ A comprehensive web-based bookstore management system built with Laravel 10.49, 
 
 ## 🖼️ Application Views
 
-### Public Pages
+### User Interface
+![User Interface](user.png)
 - **Homepage** - Landing page with highlights and main navigation
 - **Book Catalog** - Grid/list view with advanced filtering and sorting
 - **Book Details** - Comprehensive book information, rating statistics, and review form
 - **Top Authors** - Author leaderboard with various performance metrics
 - **Rating Form** - Interactive interface for submitting reviews (requires login)
 
-### Admin Panel
+### Admin Interface
+![Admin Interface](admin.png)
 - **Dashboard** - Application statistics overview and activity logs
 - **Book Management** - CRUD operations with bulk actions
 - **Author Management** - Author database with complete profiles

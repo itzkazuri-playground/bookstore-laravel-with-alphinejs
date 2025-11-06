@@ -59,38 +59,36 @@ Route::middleware('auth')->group(function () {
 });
 
 // API routes for autocomplete
-Route::get('/api/search/books', [SearchController::class, 'searchBooks'])->middleware(['admin.auth']);
-Route::get('/api/search/authors', [SearchController::class, 'searchAuthors'])->middleware(['admin.auth']);
+Route::get('/api/search/books', [SearchController::class, 'searchBooks']);
+Route::get('/api/search/authors', [SearchController::class, 'searchAuthors']);
 
 // Admin routes (only accessible by authenticated admin users)
-Route::prefix('admin')->group(function () {
+Route::prefix('admin')->middleware(['auth', 'admin.redirect'])->group(function () {
     // Remove the separate admin login route since we're using a single login
     // Admin login is now handled through the main login page
     Route::post('/logout', [AdminController::class, 'logout'])->name('admin.logout');
     
-    Route::middleware(['admin.auth'])->group(function () {
-        Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
-        
-        // Books routes
-        Route::get('/books', [AdminBooksController::class, 'index'])->name('admin.books');
-        Route::get('/books/create', [AdminBooksController::class, 'create'])->name('admin.books.create');
-        Route::post('/books', [AdminBooksController::class, 'store'])->name('admin.books.store');
-        Route::get('/books/{book}/edit', [AdminBooksController::class, 'edit'])->name('admin.books.edit');
-        Route::put('/books/{book}', [AdminBooksController::class, 'update'])->name('admin.books.update');
-        Route::delete('/books/{book}', [AdminBooksController::class, 'destroy'])->name('admin.books.destroy');
-        
-        // Authors routes
-        Route::get('/authors', [AdminAuthorsController::class, 'index'])->name('admin.authors');
-        Route::get('/authors/create', [AdminAuthorsController::class, 'create'])->name('admin.authors.create');
-        Route::post('/authors', [AdminAuthorsController::class, 'store'])->name('admin.authors.store');
-        Route::get('/authors/{author}/edit', [AdminAuthorsController::class, 'edit'])->name('admin.authors.edit');
-        Route::put('/authors/{author}', [AdminAuthorsController::class, 'update'])->name('admin.authors.update');
-        Route::delete('/authors/{author}', [AdminAuthorsController::class, 'destroy'])->name('admin.authors.destroy');
-        
-        // Ratings routes
-        Route::get('/ratings', [AdminRatingsController::class, 'index'])->name('admin.ratings');
-        Route::delete('/ratings/{rating}', [AdminRatingsController::class, 'destroy'])->name('admin.ratings.destroy');
-    });
+    Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+    
+    // Books routes
+    Route::get('/books', [AdminBooksController::class, 'index'])->name('admin.books');
+    Route::get('/books/create', [AdminBooksController::class, 'create'])->name('admin.books.create');
+    Route::post('/books', [AdminBooksController::class, 'store'])->name('admin.books.store');
+    Route::get('/books/{book}/edit', [AdminBooksController::class, 'edit'])->name('admin.books.edit');
+    Route::put('/books/{book}', [AdminBooksController::class, 'update'])->name('admin.books.update');
+    Route::delete('/books/{book}', [AdminBooksController::class, 'destroy'])->name('admin.books.destroy');
+    
+    // Authors routes
+    Route::get('/authors', [AdminAuthorsController::class, 'index'])->name('admin.authors');
+    Route::get('/authors/create', [AdminAuthorsController::class, 'create'])->name('admin.authors.create');
+    Route::post('/authors', [AdminAuthorsController::class, 'store'])->name('admin.authors.store');
+    Route::get('/authors/{author}/edit', [AdminAuthorsController::class, 'edit'])->name('admin.authors.edit');
+    Route::put('/authors/{author}', [AdminAuthorsController::class, 'update'])->name('admin.authors.update');
+    Route::delete('/authors/{author}', [AdminAuthorsController::class, 'destroy'])->name('admin.authors.destroy');
+    
+    // Ratings routes
+    Route::get('/ratings', [AdminRatingsController::class, 'index'])->name('admin.ratings');
+    Route::delete('/ratings/{rating}', [AdminRatingsController::class, 'destroy'])->name('admin.ratings.destroy');
 });
 
 require __DIR__.'/auth.php';
