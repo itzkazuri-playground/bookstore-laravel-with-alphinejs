@@ -1,42 +1,29 @@
 @extends('layouts.admin')
 
-@section('title', 'Manage Authors')
+@section('title', 'Manage Categories')
 
 @section('content')
 <div class="container mx-auto px-4 py-8">
     <div class="bg-white rounded-lg shadow-md p-6 mb-8">
-        <h1 class="text-2xl font-bold text-gray-800">Manage Authors</h1>
+        <h1 class="text-2xl font-bold text-gray-800">Manage Categories</h1>
     </div>
 
-    <!-- Search and Filter Section -->
+    <!-- Search Section -->
     <div class="bg-white rounded-lg shadow-md p-6 mb-6">
-        <form method="GET" action="{{ route('admin.authors') }}">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <form method="GET" action="{{ route('admin.categories') }}">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                     <label for="search" class="block text-sm font-medium text-gray-700">Search</label>
                     <input type="text" name="search" id="search" 
                            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-                           value="{{ request('search') }}" placeholder="Name, Bio, Country...">
-                </div>
-                
-                <div>
-                    <label for="country" class="block text-sm font-medium text-gray-700">Country</label>
-                    <select name="country" id="country" 
-                            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
-                        <option value="">All Countries</option>
-                        @foreach($countries as $country)
-                            <option value="{{ $country }}" {{ request('country') == $country ? 'selected' : '' }}>
-                                {{ $country }}
-                            </option>
-                        @endforeach
-                    </select>
+                           value="{{ request('search') }}" placeholder="Category name or description...">
                 </div>
                 
                 <div class="flex items-end">
                     <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded mr-2">
-                        Filter
+                        Search
                     </button>
-                    <a href="{{ route('admin.authors') }}" class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded">
+                    <a href="{{ route('admin.categories') }}" class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded">
                         Clear
                     </a>
                 </div>
@@ -46,9 +33,9 @@
 
     <div class="bg-white rounded-lg shadow-md p-6">
         <div class="flex justify-between items-center mb-6">
-            <h2 class="text-xl font-semibold text-gray-800">Authors List</h2>
-            <a href="{{ route('admin.authors.create') }}" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">
-                Add New Author
+            <h2 class="text-xl font-semibold text-gray-800">Categories List</h2>
+            <a href="{{ route('admin.categories.create') }}" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">
+                Add New Category
             </a>
         </div>
         
@@ -58,26 +45,21 @@
                     <tr>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Country</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Books Count</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
                     </tr>
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200">
-                    @foreach($authors as $author)
+                    @foreach($categories as $category)
                     <tr>
-                        <td class="px-6 py-4 whitespace-nowrap">{{ $author->id }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap">
-                            <a href="{{ route('admin.authors.show', $author) }}" class="text-blue-600 hover:text-blue-800">
-                                {{ $author->name }}
-                            </a>
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap">{{ $author->country ?? 'N/A' }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap">{{ $author->books->count() }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">{{ $category->id }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap font-medium">{{ $category->name }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">{{ Str::limit($category->description, 50) }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">{{ $category->books->count() }}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm">
-                            <a href="{{ route('admin.authors.show', $author) }}" class="text-blue-600 hover:text-blue-900 mr-3">View</a>
-                            <a href="{{ route('admin.authors.edit', $author) }}" class="text-blue-600 hover:text-blue-900 mr-3">Edit</a>
-                            <form action="{{ route('admin.authors.destroy', $author) }}" method="POST" class="inline" onsubmit="return confirmDelete(event, 'author')">
+                            <a href="{{ route('admin.categories.edit', $category) }}" class="text-blue-600 hover:text-blue-900 mr-3">Edit</a>
+                            <form action="{{ route('admin.categories.destroy', $category) }}" method="POST" class="inline" onsubmit="return confirmDelete(event, 'category')">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="text-red-600 hover:text-red-900">Delete</button>
@@ -90,7 +72,7 @@
         </div>
         
         <div class="mt-6">
-            {{ $authors->links() }}
+            {{ $categories->links() }}
         </div>
     </div>
 </div>
@@ -101,8 +83,8 @@ function confirmDelete(event, type) {
     const form = event.target;
     
     Swal.fire({
-        title: 'Are you sure?',
-        text: `You won't be able to revert this!`,
+        title: `Are you sure?`,
+        text: `You won't be able to revert this! This will also remove the ${type} from all associated books.`,
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',

@@ -5,7 +5,22 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>@hasSection('title')@yield('title') | @endif{{ config('app.name', 'Bookstore') }}</title>
+        <title>@hasSection('title')@yield('title')@else{{ config('app.name', 'Bookstore') }}@endif</title>
+        <meta name="description" content="A book store application.">
+
+        <!-- Open Graph / Facebook -->
+        <meta property="og:type" content="website">
+        <meta property="og:url" content="{{ url()->current() }}">
+        <meta property="og:title" content="@hasSection('title')@yield('title')@else{{ config('app.name', 'Bookstore') }}@endif">
+        <meta property="og:description" content="A book store application.">
+        <meta property="og:image" content="{{ asset('images/books.png') }}">
+
+        <!-- Twitter -->
+        <meta property="twitter:card" content="summary_large_image">
+        <meta property="twitter:url" content="{{ url()->current() }}">
+        <meta property="twitter:title" content="@hasSection('title')@yield('title')@else{{ config('app.name', 'Bookstore') }}@endif">
+        <meta property="twitter:description" content="A book store application.">
+        <meta property="twitter:image" content="{{ asset('images/books.png') }}">
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
@@ -47,17 +62,18 @@
                         </div>
                         
                         <!-- Right side navigation -->
-                        <div class="flex items-center">
+                        <div class="flex items-center space-x-4">
+                            <x-search />
                             @auth
-                                <div class="relative">
-                                    <button id="user-menu-button" class="flex items-center space-x-2">
+                                <div x-data="{ open: false }" class="relative">
+                                    <button @click="open = !open" id="user-menu-button" class="flex items-center space-x-2">
                                         <span>{{ Auth::user()->name }}</span>
                                         <svg class="h-5 w-5 text-gray-500" viewBox="0 0 20 20" fill="currentColor">
                                             <path fill-rule="evenodd" d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
                                             <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM2 10a8 8 0 1116 0 8 8 0 01-16 0z" />
                                         </svg>
                                     </button>
-                                    <div id="user-menu" class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-10 hidden">
+                                    <div x-show="open" @click.away="open = false" id="user-menu" class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-10" style="display: none;">
                                         @if(Auth::user()->isAdmin())
                                             <a href="{{ route('admin.dashboard') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Admin Dashboard</a>
                                         @else

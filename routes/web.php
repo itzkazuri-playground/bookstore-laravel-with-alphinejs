@@ -4,11 +4,13 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\AdminController;
-use App\Http\Controllers\RatingController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\UserRatingController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\Admin\AdminBooksController;
 use App\Http\Controllers\Admin\AdminAuthorsController;
 use App\Http\Controllers\Admin\AdminRatingsController;
+use App\Http\Controllers\Admin\AdminCategoriesController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -26,7 +28,7 @@ Route::get('/', function () {
     return redirect()->route('home');
 });
 
-Route::get('/home', [HomeController::class, 'index'])->name('home');
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/books', function () {
     return view('books.index');
 })->name('books.index');
@@ -37,9 +39,11 @@ Route::get('/books/{id}', [BookController::class, 'show'])->name('books.show');
 // API route for rating a book
 Route::post('/api/books/{bookId}/rate', [BookController::class, 'rateBook'])->middleware(['auth'])->name('books.rate');
 
-Route::get('/authors', function () {
-    return view('authors.index');
-})->name('authors.index');
+// API route for deleting a rating
+Route::delete('/api/ratings/{id}', [UserRatingController::class, 'destroy'])->middleware(['auth'])->name('ratings.destroy');
+
+Route::get('/authors', [App\Http\Controllers\AuthorController::class, 'index'])->name('authors.index');
+Route::get('/authors/{id}', [App\Http\Controllers\AuthorController::class, 'show'])->name('authors.show');
 Route::get('/ratings/create', function () {
     return view('ratings.create');
 })->name('ratings.create')->middleware(['auth']);
@@ -48,9 +52,7 @@ Route::get('/test', function () {
     return view('test');
 })->name('test');
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -80,11 +82,20 @@ Route::prefix('admin')->middleware(['auth', 'admin.redirect'])->group(function (
     
     // Authors routes
     Route::get('/authors', [AdminAuthorsController::class, 'index'])->name('admin.authors');
+    Route::get('/authors/{author}', [AdminAuthorsController::class, 'show'])->name('admin.authors.show');
     Route::get('/authors/create', [AdminAuthorsController::class, 'create'])->name('admin.authors.create');
     Route::post('/authors', [AdminAuthorsController::class, 'store'])->name('admin.authors.store');
     Route::get('/authors/{author}/edit', [AdminAuthorsController::class, 'edit'])->name('admin.authors.edit');
     Route::put('/authors/{author}', [AdminAuthorsController::class, 'update'])->name('admin.authors.update');
     Route::delete('/authors/{author}', [AdminAuthorsController::class, 'destroy'])->name('admin.authors.destroy');
+    
+    // Categories routes
+    Route::get('/categories', [AdminCategoriesController::class, 'index'])->name('admin.categories');
+    Route::get('/categories/create', [AdminCategoriesController::class, 'create'])->name('admin.categories.create');
+    Route::post('/categories', [AdminCategoriesController::class, 'store'])->name('admin.categories.store');
+    Route::get('/categories/{category}/edit', [AdminCategoriesController::class, 'edit'])->name('admin.categories.edit');
+    Route::put('/categories/{category}', [AdminCategoriesController::class, 'update'])->name('admin.categories.update');
+    Route::delete('/categories/{category}', [AdminCategoriesController::class, 'destroy'])->name('admin.categories.destroy');
     
     // Ratings routes
     Route::get('/ratings', [AdminRatingsController::class, 'index'])->name('admin.ratings');

@@ -49,6 +49,12 @@
                     </a>
                 </li>
                 <li class="mb-1">
+                    <a href="{{ route('admin.categories') }}" 
+                       class="{{ request()->routeIs('admin.categories') ? 'bg-gray-900 text-white border-l-4 border-blue-500' : 'text-gray-300 hover:bg-gray-700' }} block px-4 py-2 pl-3">
+                        Categories
+                    </a>
+                </li>
+                <li class="mb-1">
                     <a href="{{ route('admin.ratings') }}" 
                        class="{{ request()->routeIs('admin.ratings') ? 'bg-gray-900 text-white border-l-4 border-blue-500' : 'text-gray-300 hover:bg-gray-700' }} block px-4 py-2 pl-3">
                         Ratings

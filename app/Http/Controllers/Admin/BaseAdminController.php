@@ -17,5 +17,5 @@ class BaseAdminController extends Controller
             }
             return $next($request);
         });
-    }
+    }   
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Author;
+use App\Models\Book;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
@@ -33,6 +34,30 @@ class AdminAuthorsController extends BaseAdminController
         $countries = Author::select('country')->distinct()->orderBy('country')->pluck('country')->filter(); // For filter dropdown, sorted alphabetically
         
         return view('admin.authors', compact('authors', 'countries'));
+    }
+    
+    /**
+     * Show a specific author's details
+     */
+    public function show(Author $author): View
+    {
+        // Get all books by this author with their average ratings
+        $books = $author->books()->with(['categories', 'bookStatistics'])->paginate(12);
+        
+        // Get author statistics
+        $totalBooks = $author->books()->count();
+        $totalRatings = $author->authorStatistics ? $author->authorStatistics->total_ratings : 0;
+        $averageRating = $author->authorStatistics ? $author->authorStatistics->average_rating : 0;
+        $trendingScore = $author->authorStatistics ? $author->authorStatistics->trending_score : 0;
+
+        return view('admin.authors.show', compact(
+            'author', 
+            'books', 
+            'totalBooks', 
+            'totalRatings', 
+            'averageRating',
+            'trendingScore'
+        ));
     }
     
     /**
