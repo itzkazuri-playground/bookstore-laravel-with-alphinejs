@@ -61,14 +61,6 @@
                     Sign in
                 </button>
             </div>
-            
-            <div class="text-sm text-center">
-                @if (Route::has('password.request'))
-                    <a href="{{ route('password.request') }}" class="font-medium text-indigo-600 hover:text-indigo-500">
-                        Forgot your password?
-                    </a>
-                @endif
-            </div>
         </form>
     </div>
 </div>
