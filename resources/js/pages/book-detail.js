@@ -55,13 +55,7 @@ document.addEventListener('alpine:init', () => {
                         timer: 2000,
                         timerProgressBar: true,
                         willClose: () => {
-                            // Update the display ratings after alert closes
-                            this.averageRating = data.average_rating;
-                            this.totalRatings = data.total_ratings;
-                            
-                            // Update user's rating
-                            this.currentRating = data.user_rating;
-                            this.hoverRating = data.user_rating;
+                            window.location.reload();
                         }
                     });
                 })

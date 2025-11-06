@@ -27,7 +27,6 @@ class RatingController extends Controller
         $validator = Validator::make($request->all(), [
             'book_id' => 'required|exists:books,id',
             'rating' => 'required|integer|min:1|max:10',
-            'voter_name' => 'required|string|max:255'
         ]);
 
         if ($validator->fails()) {
@@ -44,15 +43,15 @@ class RatingController extends Controller
         $voterIdentifier = auth()->user()->id;
 
         // Check if this user has already rated this specific book
-        $existingRating = Rating::where('book_id', $bookId)
-                              ->where('voter_identifier', $voterIdentifier)
-                              ->first();
+        // $existingRating = Rating::where('book_id', $bookId)
+        //                       ->where('voter_identifier', $voterIdentifier)
+        //                       ->first();
 
-        if ($existingRating) {
-            return response()->json([
-                'message' => 'You have already rated this book'
-            ], 409);
-        }
+        // if ($existingRating) {
+        //     return response()->json([
+        //         'message' => 'You have already rated this book'
+        //     ], 409);
+        // }
 
         // Verify that the book exists
         $book = Book::find($bookId);

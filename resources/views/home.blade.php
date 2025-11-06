@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title', 'Home')
+
 @section('content')
 <div class="py-12">
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -13,7 +15,7 @@
                 <div class="bg-blue-50 p-6 rounded-lg shadow text-center mb-8">
                     <h3 class="text-xl font-semibold mb-4">Login to Your Account</h3>
                     <p class="mb-4">Access the bookstore as a user or admin with the same login page. You will be redirected based on your role after login.</p>
-                    <a href="{{ route('login') }}" class="inline-block bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg transition">
+                    <a href="{{ route('login') }}" class="inline-block bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-lg transition">
                         Login
                     </a>
                 </div>

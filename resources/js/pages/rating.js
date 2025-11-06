@@ -10,7 +10,6 @@ document.addEventListener('alpine:init', () => {
         form: {
             author_id: '',
             book_id: '',
-            voter_name: '', // This will now be ignored since we use authenticated user ID
             rating: 5
         },
         hoverRating: null,
@@ -104,8 +103,7 @@ document.addEventListener('alpine:init', () => {
                 },
                 body: JSON.stringify({
                     book_id: parseInt(this.form.book_id),
-                    rating: parseInt(this.form.rating),
-                    voter_name: this.form.voter_name // Still sending this for validation but it won't be used
+                    rating: parseInt(this.form.rating)
                 })
             })
             .then(response => {
@@ -131,7 +129,6 @@ document.addEventListener('alpine:init', () => {
                         this.form = {
                             author_id: '',
                             book_id: '',
-                            voter_name: '',
                             rating: 5
                         };
                         this.searchTerm = '';

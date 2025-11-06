@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title', 'Rate a Book')
+
 @section('content')
 <div x-data="ratingData" class="py-12">
     <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">
@@ -59,17 +61,7 @@
                         <p x-show="form.author_id && books.length === 0" class="mt-1 text-sm text-gray-500">No books found for this author</p>
                     </div>
                     
-                    <div>
-                        <label for="voter_name" class="block text-sm font-medium text-gray-700 mb-1">Your Name</label>
-                        <input
-                            type="text"
-                            id="voter_name"
-                            x-model="form.voter_name"
-                            required
-                            class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                            placeholder="Enter your name"
-                        />
-                    </div>
+                    
                     
                     <div>
                         <label for="rating" class="block text-sm font-medium text-gray-700 mb-1">Rating (1-10)</label>
@@ -104,7 +96,7 @@
                             <span x-show="submitting" class="mr-2">
                                 <svg class="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                                     <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.000 5.824 3 7.938l3-2.647z"></path>
                                 </svg>
                             </span>
                             <span x-text="submitting ? 'Submitting...' : 'Submit Rating'"></span>

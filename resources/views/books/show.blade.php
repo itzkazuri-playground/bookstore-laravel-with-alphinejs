@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title', $book->title)
+
 @section('content')
 <div id="book-data" 
      data-book-id="{{ $book->id }}" 

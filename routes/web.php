@@ -44,6 +44,10 @@ Route::get('/ratings/create', function () {
     return view('ratings.create');
 })->name('ratings.create')->middleware(['auth']);
 
+Route::get('/test', function () {
+    return view('test');
+})->name('test');
+
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');

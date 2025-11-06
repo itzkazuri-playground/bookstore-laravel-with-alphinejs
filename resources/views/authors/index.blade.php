@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title', 'Top Authors')
+
 @section('content')
 <div x-data="authorsData()" class="py-12">
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">

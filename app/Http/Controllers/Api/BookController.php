@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Collection;
 
 class BookController extends Controller
 {
@@ -61,9 +62,11 @@ class BookController extends Controller
         }
 
         // Get paginated results before applying rating-based sorting/filters
+        /** @var LengthAwarePaginator $books */
         $books = $query->paginate($request->get('per_page', 15));
 
         // Apply rating filters after getting the paginated books
+        /** @var Collection $filteredBooks */
         $filteredBooks = $books->getCollection()->filter(function ($book) use ($request) {
             $stats = $book->bookStatistics;
             if (!$stats) {
@@ -106,7 +109,7 @@ class BookController extends Controller
         }
 
         // Update the paginator with the sorted/filtered collection
-        $books->setCollection($filteredBooks);
+        $books->setCollection($filteredBooks->values());
 
         // Map the results to include related data properly formatted
         $books->getCollection()->transform(function ($book) {
